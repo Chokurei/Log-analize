@@ -42,13 +42,13 @@ input
         
 output
 
-    filtered features after mapper: 4 features
+    filtered features after mapper: 4 features:
     
         ID,grid_num,time_num,speed
         
-    grid_idx=lon_idx*30+lat_idx
+    grid_idx=lon_idx*30+lat_idx:
     
-        Bangkok coordinate
+        Bangkok coordinate:
         
             lon_w,lon_e=100.40,100.70
             
@@ -56,14 +56,16 @@ output
             
             split into 100x100 grid
             
-    time_idx 
+    time_idx:
     
         split 1 day(1440min) into interval = 30 min
 ### 2. congestion_reducer.py
-# input data
+input data
+
     # origianl data: get from mapper: 4 features
         #ID,grid_num,time_num,speed
-# output
+output
+
     # average speed matrix
         # size: 48 x 10000
         # rows: grid index
