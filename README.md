@@ -15,15 +15,12 @@ Format of each line in orignal CSV file:
 IMEI,Latitude,Longitude,speed,direaction,acceleration,meter,time(unix),data_source(8,9),time
 (normal),error of Taxi data(11 features)
 ### 2. 20161025_maper.py
- Distributed way, using hadoop
-
-Mapper procedure
+Distributed way, using hadoop
+  Mapper procedure
 ### 3. 20161025_reducer.py
 Distributed way, using hadoop
-
-Reducer procedure
-
-Note:
+  Reducer procedure
+  Note:
 
     for line in sys.stdin:
 
@@ -31,12 +28,10 @@ Note:
 ------------------------------------------------------------------------------------------
 Analyze congestion condition in Bangkok
 ### 1. congestion_mapper.py
-
 input
-
+  
     *original data: 11 features:
-        #IMEI,Latitude,Longitude,speed,direaction,acceleration,meter,time(unix),data_source(8,9),time,other
-        
+        #IMEI,Latitude,Longitude,speed,direaction,acceleration,meter,time(unix),data_source(8,9),time,other        
 output
 
     *filtered features after mapper: 4 features:
