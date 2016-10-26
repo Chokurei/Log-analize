@@ -29,44 +29,37 @@ Note:
 
     for line in sys.stdin:
 
-## 1. Congestion analyse
+## 2. Congestion analyse
 ------------------------------------------------------------------------------------------
 Analyze congestion condition in Bangkok
 ### 1. congestion_mapper.py
 
 input
 
-    original data: 11 features
-    
-        IMEI,Latitude,Longitude,speed,direaction,acceleration,meter,time(unix),data_source(8,9),time,other
+    *original data: 11 features:
+        #IMEI,Latitude,Longitude,speed,direaction,acceleration,meter,time(unix),data_source(8,9),time,other
         
 output
 
-    filtered features after mapper: 4 features:
-    
+    *filtered features after mapper: 4 features:
         ID,grid_num,time_num,speed
         
-    grid_idx=lon_idx*30+lat_idx:
-    
-        Bangkok coordinate:
-        
-            lon_w,lon_e=100.40,100.70
+    *grid_idx=lon_idx*30+lat_idx:
+        #Bangkok coordinate:
+            #lon_w,lon_e=100.40,100.70
+            #lat_s,lat_n=13.60,13.90
+            #split into 100x100 grid
             
-            lat_s,lat_n=13.60,13.90
-            
-            split into 100x100 grid
-            
-    time_idx:
-    
+    *time_idx:
         split 1 day(1440min) into interval = 30 min
 ### 2. congestion_reducer.py
 input data
 
-    # origianl data: get from mapper: 4 features
+    * origianl data: get from mapper: 4 features
         #ID,grid_num,time_num,speed
 output
 
-    # average speed matrix
+    * average speed matrix
         # size: 48 x 10000
         # rows: grid index
         # col: time index
