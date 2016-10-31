@@ -1,82 +1,67 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-Created on Wed Oct 26 13:32:10 2016
+Created on Wed Oct 26 19:41:51 2016
 
 @author: kaku
 ###################### reducer code for congression condition #######################
 # input data
-    # origianl data: get from mapper: 4 features
-        #ID,grid_num,time_num,speed
+    # origianl data: get from mapper: 3 features
+        #time_id, grid_id, speed
 # output
-    # average speed matrix
-        # size: 48 x 10000
-        # rows: grid index
-        # col: time index
-        # value: average speed 
+    # time_id, grid_id, avg_spped, num_of_records
 """
 
 import sys
-import numpy as np
 
-all_aver_speed = []
-time_interval = 30 # min
-time_range = np.arange(0,24*60,time_interval)+time_interval/2
-lon_range = 100 # 100 x 100 grids
+old_grid_id = None
+old_time_id = None
+avg_speed = None
+num_of_records = 0
+sum_of_speed = 0
 
-
-#file = open('/home/kaku/Desktop/trail/grid_time_idex.csv')
-##sys.stdin = open('/home/kaku/Desktop/trail/grid_time_idex.csv')
-for time_idx in range(0,len(time_range)):
-    one_avg_speed = np.empty(1,lon_range**2).reshape(lon_range**2)
-    for grid_idx in range(0,lon_range**2):
-        number = 0
-        speed_add = 0
-        for line in sys.stdin:
-            data = line.strip().split(',')
-            if eval(data[-2]) != time_idx:
-                continue
+for line in sys.stdin:
+    data_mapped = line.strip().split(',')
+    try:
+        assert len(data_mapped) == 3
+        time_id= data_mapped[0]
+        grid_id= data_mapped[1]
+        
+        if time_id == old_time_id:
+            if grid_id == old_grid_id:
+                num_of_records += 1
+                sum_of_speed += float(data_mapped[2])
+            elif grid_id != old_grid_id:
+                avg_speed = round(sum_of_speed/num_of_records)
+                print('{0},{1},{2},{3}'.format(grid_id,time_id,avg_speed,num_of_records))
+                old_grid_id =grid_id                
+                num_of_records = 0
+                sum_of_speed = 0
+                num_of_records +=1
+                sum_of_speed += float(data_mapped[2])
             else:
-                if eval(data[1]) == grid_idx:
-                    number = number+1
-                    speed = eval(data[-1])
-                    speed_add = speed_add+speed
-                else:
-                    continue
-        #no information
-        if number == 0:
-            speed_avg = -1
-            one_avg_speed[grid_idx] = speed_avg
-        else:
-            speed_avg = speed_add/number
-            one_avg_speed[grid_idx] = speed_avg
-    print(one_avg_speed)
-
-"""
-for time_idx in range(0,len(time_range)):
-    one_avg_speed = []
-    for grid_idx in range(0,lon_range**2):
-        number = 0
-        speed_add = 0
-        for line in sys.stdin:
-            data = line.strip().split(',')
-            if eval(data[-2]) != time_idx:
                 continue
-            else:
-                if eval(data[1]) == grid_idx:
-                    number = number+1
-                    speed = eval(data[-1])
-                    speed_add = speed_add+speed
-                else:
-                    continue
-        #no information
-        if number == 0:
-            speed_avg = -1
-            one_avg_speed.append(speed_avg)
+            
+        elif old_time_id != None:
+            print('{0},{1},{2},{3}'.format(grid_id,time_id,avg_speed,num_of_records))
+            old_time_id = time_id
+            old_grid_id = grid_id            
+            num_of_records = 0
+            sum_of_speed = 0
+            num_of_records +=1
+            sum_of_speed +=float(data_mapped[2])
+            
         else:
-            speed_avg = speed_add/number
-            one_avg_speed.append(speed_avg)
-    print(one_avg_speed)                    
-"""   
+            old_time_id = time_id
+            old_grid_id = grid_id
+            num_of_records += 1
+            sum_of_speed += float(data_mapped[2])
+            continue
+    except:
+        continue
 
+##The final line, if time_id == old_time_id and grid_id == old_grid_id, also need to be output
+if time_id == old_time_id and grid_id == old_grid_id:
+    avg_speed = round(sum_of_speed/num_of_records)
+    print('{0},{1},{2},{3}'.format(grid_id,time_id,avg_speed,num_of_records))
     
