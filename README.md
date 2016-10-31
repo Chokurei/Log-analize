@@ -46,13 +46,8 @@ output
 ### 2. congestion_reducer.py
 input data
 
-    * origianl data: get from mapper: 4 features
-        #ID,grid_num,time_num,speed
+    origianl data: get from mapper: 3 features
+        time_id, grid_id, speed
 output
 
-    * average speed matrix
-        # size: 48 x 10000
-        # rows: grid index
-        # col: time index
-        # value: average speed 
-
+    time_id, grid_id, avg_spped, num_of_records
