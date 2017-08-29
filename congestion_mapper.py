@@ -6,6 +6,7 @@ Created on Wed Oct 26 10:38:21 2016
 @author: kaku
 
 ##################### mapper code for congression condition ############ 
+#Some trial
 #input
     # original data: 11 features
         #IMEI,Latitude,Longitude,speed,direaction,acceleration,meter,time(unix),data_source(8,9),time,other
